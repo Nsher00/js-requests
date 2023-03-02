@@ -10,7 +10,7 @@
 */
 
 // CODE HERE
-
+let sayHelloButton = document.querySelector('#say-hello-button')
 
 // PROBLEM 2
 /*
@@ -20,7 +20,12 @@
 */
 
 // CODE HERE
+const sayHelloBtnColor =()=>{
+    sayHelloButton.style.backgroundColor = 'black'
+    sayHelloButton.style.color = 'white'
+}
 
+sayHelloButton.addEventListener('mouseover', sayHelloBtnColor)
 
 // PROBLEM 3
 /*
@@ -32,7 +37,12 @@
 */
 
 // CODE HERE
+const sayHelloBtnColorReturn =()=>{
+    sayHelloButton.style.backgroundColor = '#EFEFEF'
+    sayHelloButton.style.color = 'black'
+}
 
+sayHelloButton.addEventListener('mouseout', sayHelloBtnColorReturn)
 
 // PROBLEM 4
 /*
@@ -53,7 +63,7 @@ const sayHello = () => {
 // DO NOT EDIT FUNCTION
 
 // CODE HERE
-
+sayHelloButton.addEventListener('click', sayHello)
 
 // PROBLEM 5 
 /*
@@ -67,7 +77,13 @@ const sayHello = () => {
 */ 
 
 const ohMy = () => {
-    // YOUR CODE HERE
+    axios.get('http://localhost:3000/animals').then(results =>{
+        results.data.forEach(e => {
+            let newP = document.createElement('p')
+            newP.textContent = e
+            document.body.appendChild(newP)
+        })
+    }).catch(error=> console.log({err, error:'you got an error.'}))
 }
 
 document.getElementById('animals-button').addEventListener('click', ohMy)
@@ -87,8 +103,13 @@ document.getElementById('animals-button').addEventListener('click', ohMy)
 */
 
 const repeatMyParam = () => {
-    //YOUR CODE HERE
+    axios.get('http://localhost:3000/repeat/:repeat').then(results =>{
+        console.log(results.data)
+        document.getElementById('repeat-text').textContent = results.data
+        document.getElementById('repeat-text').style.display = 'block'
+    }).catch(error=>console.log({err, error:'you have an error'}))
 }
+document.getElementById('repeat-button').addEventListener('click', repeatMyParam)
 
 // PROBLEM 7
 /*
@@ -113,8 +134,12 @@ const repeatMyParam = () => {
 */
 
 // CODE HERE
-
-
+const queryRequest =()=>{
+    axios.get('http://localhost:3000/query-test/?name=joe&moe').then(results=>{
+        console.log(results.data);
+    })
+}
+document.getElementById('query-button').addEventListener('click',queryRequest)
 
 ////////////////
 //INTERMEDIATE//
@@ -166,3 +191,16 @@ const repeatMyParam = () => {
 */
 
 // CODE HERE 
+const createFood = (event)=>{
+    event.preventDefault()
+    let foodInput = document.querySelector('input')
+    const body ={
+        newFood: foodInput.value
+    }
+    axios.post('http://localhost:3000/food',body).then(results=>{
+        console.log(results.data);
+    })
+}
+
+document.querySelector('form').addEventListener('submit', createFood)
+
